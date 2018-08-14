@@ -1,0 +1,19 @@
+<div class="Battlefield">
+  <div class="Battlefield-sideCommentX">
+    <div class="Battlefield-sideCommentItem" *ngFor="let sign of positionX">{{sign}}</div>
+  </div>
+  <div class="Battlefield-mainArea">
+    <div class="Battlefield-sideCommentY">
+      <div class="Battlefield-sideCommentItem" *ngFor="let sign of positionY">{{sign}}</div>
+    </div>
+    <div class="Battlefield-row">
+      <ng-container *ngFor="let row of tiles">    
+        <ng-container *ngFor="let tile of row">
+          <app-tile ></app-tile>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  
+
+</div>
