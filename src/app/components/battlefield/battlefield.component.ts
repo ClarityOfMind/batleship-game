@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ShipPlaceService } from '../../services/ship-place/ship-place.service';
+import Tile from '../../models/tile.model';
 
 @Component({
   selector: 'app-battlefield',
@@ -6,24 +8,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./battlefield.component.styl']
 })
 export class BattlefieldComponent implements OnInit {
+
   public options: {
     battlefieldSize: {
       'standard': 10
     }
   };
-  positionX: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-  positionY: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-  public tiles = [];
 
-  constructor() {
+  public positionX: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+  public positionY: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+  public tiles: Tile[][];
+
+  constructor(private _shipPlacementService: ShipPlaceService) {
   }
 
   ngOnInit() {
-    for (let i = 1; i <= 10; i++) {
-      this.tiles[i] = [];
-      for (let j = 1; j <= 10; j++) {
-        this.tiles[i].push(j);
-      }
-    }
+    this.tiles = this._shipPlacementService.generateTileArray();
+  }
+
+  setupShipsRandomly () {
+    this.tiles = [];
+    this.tiles = this._shipPlacementService.generateTileArray();
+    this._shipPlacementService.setRandomShips(this.tiles);
+
   }
 }

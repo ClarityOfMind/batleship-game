@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import Coordinate from '../../models/coordinate.model';
 
 @Component({
   selector: 'app-tile',
@@ -6,15 +7,9 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./tile.component.styl']
 })
 export class TileComponent implements OnInit {
-  @Input () position: {
-    x: number,
-    y: number
-  };
-  public classList = {
-      main: 'Tile',
-      modMissed: 'Tile--missed',
-  };
-  public isShip = false;
+  @Input () position: Coordinate;
+  @Input () isShip: boolean;
+  @Input () isAroundShip: boolean;
 
   constructor() {
   }
@@ -22,4 +17,18 @@ export class TileComponent implements OnInit {
   ngOnInit() {
   }
 
+  /* sendPosition (position: Coordinate) {
+    return this.position.emit();
+  } */
+
+  /* onClick () {
+
+    if (this._shipPlacementService.isActive) {
+      if (this.isShip === true) {
+        this.isShip = false;
+      } else {
+        this.isShip = true;
+      }
+    }
+  } */
 }

@@ -1,3 +1,9 @@
 <div class="Port">
-  
+    <ng-container *ngFor="let shipClass of ships">
+        <div class="Port-wrapper">
+            <ng-container *ngFor="let ship of shipClass">
+                <app-ship [widthIndex]="ship.size"></app-ship>
+            </ng-container>
+        </div>
+    </ng-container>
 </div>

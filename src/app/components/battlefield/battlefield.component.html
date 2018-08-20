@@ -6,12 +6,13 @@
     <div class="Battlefield-sideCommentY">
       <div class="Battlefield-sideCommentItem" *ngFor="let sign of positionY">{{sign}}</div>
     </div>
-    <div class="Battlefield-row">
-      <ng-container *ngFor="let row of tiles">    
+    <div class="Battlefield-grid">
+        <ng-container *ngFor="let row of tiles">
         <ng-container *ngFor="let tile of row">
-          <app-tile ></app-tile>
+          <app-tile [position]="tile.position"  [isShip]="tile.isShip" [isAroundShip]="tile.isAroundShip" ></app-tile>
         </ng-container>
       </ng-container>
+      <button (click)="setupShipsRandomly();">Random</button>
     </div>
   </div>
   

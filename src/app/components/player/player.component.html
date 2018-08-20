@@ -1,5 +1,6 @@
 <div class="Player">
-  <h3>{{name}}</h3>
+  <h3>Player: {{name}}</h3>
+  <p>ID: {{id}}</p>
   <app-battlefield></app-battlefield>
-  <app-port></app-port>
+  <app-port [ships]="ships"></app-port>
 </div>

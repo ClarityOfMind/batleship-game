@@ -1,1 +1,4 @@
-<button [class]="classList.main"></button>
+<button [ngClass]="{
+    'Tile': true,
+    'Tile--isShip': isShip
+  }" ></button>

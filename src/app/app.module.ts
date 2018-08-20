@@ -7,6 +7,7 @@ import { BattlefieldComponent } from './components/battlefield/battlefield.compo
 import { PlayerComponent } from './components/player/player.component';
 import { PortComponent } from './components/port/port.component';
 import { ShipComponent } from './components/ship/ship.component';
+import { ShipPlaceService } from './services/ship-place/ship-place.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { ShipComponent } from './components/ship/ship.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [ShipPlaceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
