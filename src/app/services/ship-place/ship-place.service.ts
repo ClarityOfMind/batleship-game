@@ -14,7 +14,7 @@ export class ShipPlaceService {
     this.isActive = true;
   }
 
-  generateTileArray () {
+  generateTileArray (): Tile[][] {
     const tiles: Tile[][] = [];
 
     for (let i = 0; i < 10; i++) {
@@ -26,6 +26,7 @@ export class ShipPlaceService {
     console.log(tiles);
     return tiles;
   }
+
 
   setRandomShips (tiles) {
     const shps = [
@@ -75,7 +76,7 @@ export class ShipPlaceService {
         }
   }
 
-  getRanomPoint (shipLength: number, direction: {x: number, y: number}) {
+  getRanomPoint (shipLength: number, direction: {x: number, y: number}): Coordinate {
     const point: {x: number, y: number} = {x: 0, y: 0};
 
     if (direction.x) {
@@ -89,7 +90,7 @@ export class ShipPlaceService {
     return point;
   }
 
-  validateShipLocation (tiles: Tile[], point: {x: number, y: number}, direction: {x: number, y: number}, shipLength: number) {
+  validateShipLocation (tiles: Tile[], point: {x: number, y: number}, direction: {x: number, y: number}, shipLength: number): boolean {
 
     const startPointX = (point.x === 0) ? point.x : point.x - 1;
     const startPointY = (point.y === 0) ? point.y : point.y - 1;
@@ -97,7 +98,7 @@ export class ShipPlaceService {
     let endPointY: number;
 
     if (point.x + shipLength === 10 && direction.x) { // Vertical ship stuck to bottom
-      endPointX = point.x + shipLength - + direction.x;
+      endPointX = point.x + shipLength - direction.x;
     } else if (point.x + shipLength < 10 && direction.x) { // Vertical ship isn't stuck to bottom
       endPointX = point.x + shipLength;
     } else if (point.x === 9 && !direction.x) { // Horizontal ship stuck to bottom
@@ -124,7 +125,7 @@ export class ShipPlaceService {
       endPointY = point.y + 1;
     }
 
-    console.log('X:', startPointX, endPointX, 'Y:', startPointY, endPointY)
+    console.log('X:', startPointX, endPointX, 'Y:', startPointY, endPointY);
 
     for (let i = startPointX; i < endPointX + 1; i++ ) {
       for (let j = startPointY; j < endPointY + 1; j++) {
@@ -142,7 +143,7 @@ export class ShipPlaceService {
     return true;
   }
 
-  getRandomInt (min, max) {
+  getRandomInt (min, max): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 

@@ -1,3 +1,4 @@
-<div class="Ship" [style.width.px]="privateWidth" [tabindex]="focus">
-  {{widthIndex}}
+<div *ngIf="health" class="Ship" [style.width.px]="privateWidth" [tabindex]="focus" (click)="decreaseHealth()">
+  {{health}}
 </div>
+

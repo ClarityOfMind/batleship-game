@@ -2,11 +2,12 @@
     <div class="Game-container">
         <div class="Game-battlearea">
             <div>
-                <app-player> </app-player>   
+                <app-player [behaviour]="humanBahaviour" [name]="player1"> </app-player>   
             </div>
             <div>
-                <app-player> </app-player>   
+                <app-player [behaviour]="computerBahaviour" [name]="player2"> </app-player>   
             </div>
+            
         </div>
     </div>
 </div>

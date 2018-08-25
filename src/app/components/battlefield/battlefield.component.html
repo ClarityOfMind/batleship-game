@@ -6,13 +6,14 @@
     <div class="Battlefield-sideCommentY">
       <div class="Battlefield-sideCommentItem" *ngFor="let sign of positionY">{{sign}}</div>
     </div>
-    <div class="Battlefield-grid">
+    <div class="Battlefield-grid" click>
         <ng-container *ngFor="let row of tiles">
         <ng-container *ngFor="let tile of row">
-          <app-tile [position]="tile.position"  [isShip]="tile.isShip" [isAroundShip]="tile.isAroundShip" ></app-tile>
+          <app-tile [position]="tile.position"  [isShip]="tile.isShip" [isAroundShip]="tile.isAroundShip" [owner]="owner" (onClick)="getFired($event)"></app-tile>
         </ng-container>
       </ng-container>
       <button (click)="setupShipsRandomly();">Random</button>
+      <button (click)="_switchTurnService.switchTurn()">Turn</button>
     </div>
   </div>
   

@@ -8,6 +8,7 @@ import { PlayerComponent } from './components/player/player.component';
 import { PortComponent } from './components/port/port.component';
 import { ShipComponent } from './components/ship/ship.component';
 import { ShipPlaceService } from './services/ship-place/ship-place.service';
+import { SwitchTurnService } from './services/switch-trun/switch-turn.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,10 @@ import { ShipPlaceService } from './services/ship-place/ship-place.service';
   imports: [
     BrowserModule
   ],
-  providers: [ShipPlaceService],
+  providers: [
+    ShipPlaceService,
+    SwitchTurnService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

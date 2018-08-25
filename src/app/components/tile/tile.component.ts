@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import Coordinate from '../../models/coordinate.model';
+import { SwitchTurnService } from '../../services/switch-trun/switch-turn.service';
 
 @Component({
   selector: 'app-tile',
@@ -10,25 +11,23 @@ export class TileComponent implements OnInit {
   @Input () position: Coordinate;
   @Input () isShip: boolean;
   @Input () isAroundShip: boolean;
+  @Input () owner: string;
 
-  constructor() {
+  @Output () onClick = new EventEmitter<Coordinate>();
+
+  constructor(private _swtchTurnService: SwitchTurnService) {
   }
 
   ngOnInit() {
   }
 
-  /* sendPosition (position: Coordinate) {
-    return this.position.emit();
-  } */
-
-  /* onClick () {
-
-    if (this._shipPlacementService.isActive) {
-      if (this.isShip === true) {
-        this.isShip = false;
-      } else {
-        this.isShip = true;
-      }
+  /**
+  * Send position of a tile upon click.
+  */
+  sendPosition (): void {
+    if (this._swtchTurnService.humanTurn) {
+      this.onClick.emit(this.position);
     }
-  } */
+  }
+
 }

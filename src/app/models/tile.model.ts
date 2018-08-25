@@ -3,9 +3,9 @@ import Coordinate from './coordinate.model';
 /** Class representing a particular tile of the battlefield. */
 class Tile {
     public state = 0;
-    public isShip = false;
-    public isAroundShip = false;
-    public position: Coordinate;
+    public isShip = false; // Indicate if any ship set up on the tile
+    public isAroundShip = false; // Indicate if the tile is aneighbour of a ship
+    public position: Coordinate; // Tile's position on the board
 
     /**
      * Create a particular tile of battlefield.
