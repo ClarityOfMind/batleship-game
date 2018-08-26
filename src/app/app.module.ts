@@ -7,8 +7,10 @@ import { BattlefieldComponent } from './components/battlefield/battlefield.compo
 import { PlayerComponent } from './components/player/player.component';
 import { PortComponent } from './components/port/port.component';
 import { ShipComponent } from './components/ship/ship.component';
-import { ShipPlaceService } from './services/ship-place/ship-place.service';
-import { SwitchTurnService } from './services/switch-trun/switch-turn.service';
+import { ShipPlaceService } from './services/ship-place-service/ship-place.service';
+import { SwitchTurnService } from './services/switch-trun-service/switch-turn.service';
+import { ShotLogComponent } from './components/shot-log/shot-log.component';
+import { ShotLogService } from './services/shot-log-service/shot-log.service';
 
 @NgModule({
   declarations: [
@@ -17,14 +19,16 @@ import { SwitchTurnService } from './services/switch-trun/switch-turn.service';
     BattlefieldComponent,
     PlayerComponent,
     PortComponent,
-    ShipComponent
+    ShipComponent,
+    ShotLogComponent
   ],
   imports: [
     BrowserModule
   ],
   providers: [
     ShipPlaceService,
-    SwitchTurnService
+    SwitchTurnService,
+    ShotLogService
   ],
   bootstrap: [AppComponent]
 })

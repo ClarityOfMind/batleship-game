@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import Coordinate from '../../models/coordinate.model';
-import { SwitchTurnService } from '../../services/switch-trun/switch-turn.service';
+import { SwitchTurnService } from '../../services/switch-trun-service/switch-turn.service';
 
 @Component({
   selector: 'app-tile',
@@ -13,7 +13,7 @@ export class TileComponent implements OnInit {
   @Input () isAroundShip: boolean;
   @Input () owner: string;
 
-  @Output () onClick = new EventEmitter<Coordinate>();
+  @Output () clickOnTile: EventEmitter<Coordinate> = new EventEmitter();
 
   constructor(private _swtchTurnService: SwitchTurnService) {
   }
@@ -24,9 +24,9 @@ export class TileComponent implements OnInit {
   /**
   * Send position of a tile upon click.
   */
-  sendPosition (): void {
+  getFiredByPlayer (event): void {
     if (this._swtchTurnService.humanTurn) {
-      this.onClick.emit(this.position);
+      this.clickOnTile.emit(this.position);
     }
   }
 

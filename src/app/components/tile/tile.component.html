@@ -2,4 +2,4 @@
     'Tile': true,
     'Tile--isShip': isShip,
     'Tile--isHit' : isHit
-  }" (click)="owner === 'AI' ? sendPosition() : return"></button>
+  }" (click)="getFiredByPlayer($event)"></button>

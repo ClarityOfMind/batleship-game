@@ -1,5 +1,5 @@
 import { Component} from '@angular/core';
-import { SwitchTurnService } from './services/switch-trun/switch-turn.service';
+
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,6 @@ export class AppComponent {
   public player2 = 'AI';
   public turn: string;
 
-  constructor(private _switchTurnService: SwitchTurnService) {
-    this.turn = _switchTurnService.turn;
+  constructor() {
   }
 }

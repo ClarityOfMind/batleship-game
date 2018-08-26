@@ -1,15 +1,22 @@
 <div class="Battlefield">
   <div class="Battlefield-sideCommentX">
-    <div class="Battlefield-sideCommentItem" *ngFor="let sign of positionX">{{sign}}</div>
+    <div class="Battlefield-sideCommentItem" *ngFor="let letter of positionY">{{letter}}</div>
   </div>
   <div class="Battlefield-mainArea">
     <div class="Battlefield-sideCommentY">
-      <div class="Battlefield-sideCommentItem" *ngFor="let sign of positionY">{{sign}}</div>
+      <div class="Battlefield-sideCommentItem" *ngFor="let digit of positionX">{{digit}}</div>
     </div>
     <div class="Battlefield-grid" click>
-        <ng-container *ngFor="let row of tiles">
-        <ng-container *ngFor="let tile of row">
-          <app-tile [position]="tile.position"  [isShip]="tile.isShip" [isAroundShip]="tile.isAroundShip" [owner]="owner" (onClick)="getFired($event)"></app-tile>
+        <ng-container *ngFor="let row of tiles; let i = index">
+        <ng-container *ngFor="let tile of row; let j = index">
+          <app-tile
+            [attr.data-positon]="positionY[j] + positionX[i]" 
+            [position]="tile.position"
+            [isShip]="tile.isShip"
+            [isAroundShip]="tile.isAroundShip"
+            [owner]="owner" 
+            (clickOnTile)="getFired($event)">
+          </app-tile>
         </ng-container>
       </ng-container>
       <button (click)="setupShipsRandomly();">Random</button>

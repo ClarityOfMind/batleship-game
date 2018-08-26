@@ -1,6 +1,11 @@
-<div class="Player">
+<section class="Player">
   <h3>Player: {{name}}</h3>
   <p>ID: {{id}}</p>
-  <app-battlefield [owner]="name"></app-battlefield>
-  <app-port [ships]="ships"></app-port>
-</div>
+  <div class="Player-wrapper">
+    <app-shot-log [owner]="name" [style.order]="name === 'Human' ? 0 : 1"></app-shot-log>
+    <div>
+      <app-battlefield [owner]="name"></app-battlefield>
+      <app-port [ships]="ships"></app-port>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,6 @@
+<section class="ShotLog">
+  <h3 class="ShotLog-name">{{owner}} Shot Log:</h3>
+<ul class="ShotLog-field">
+  <li *ngFor="let item of logArray; let i = index">{{i+1}}. <span class="ShotLog--italic">{{item}}</span></li>
+</ul>
+</section>

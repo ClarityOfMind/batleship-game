@@ -1,9 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Ship } from '../../models/ship.model';
-import { BehaviorSubject } from 'rxjs';
-import Behaviour from '../../behaviour/behaviour';
-import Tile from '../../models/tile.model';
-import { SwitchTurnService } from '../../services/switch-trun/switch-turn.service';
+import Coordinate from '../../models/coordinate.model';
 
 @Component({
   selector: 'app-player',
@@ -12,7 +9,7 @@ import { SwitchTurnService } from '../../services/switch-trun/switch-turn.servic
 })
 export class PlayerComponent implements OnInit {
   @Input () name: string;
-  @Input () behaviour: Behaviour;
+  public positionAttacked: Coordinate;
   public id: number;
   public ships: Ship[][] = [];
 
@@ -35,6 +32,11 @@ export class PlayerComponent implements OnInit {
 
   getUniqueId (): number {
     return +new Date() / 1000;
+  }
+
+  getFired (position: Coordinate) {
+    this.positionAttacked = position;
+    console.log(this.positionAttacked);
   }
 }
 
