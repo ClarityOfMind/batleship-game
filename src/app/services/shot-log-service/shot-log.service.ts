@@ -12,9 +12,9 @@ export class ShotLogService {
   constructor(private _switchTurnService: SwitchTurnService) { }
 
   log (owner: string, message: string): void {
-    if (owner === 'Human') {
+    if (owner === 'Human' && this._switchTurnService.computerTurn) {
       this.computerShots.push(message);
-    } else {
+    } else if (owner === 'AI' && this._switchTurnService.humanTurn) {
       this.playerShots.push(message);
     }
   }

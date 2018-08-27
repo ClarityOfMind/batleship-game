@@ -11,6 +11,7 @@ import { ShipPlaceService } from './services/ship-place-service/ship-place.servi
 import { SwitchTurnService } from './services/switch-trun-service/switch-turn.service';
 import { ShotLogComponent } from './components/shot-log/shot-log.component';
 import { ShotLogService } from './services/shot-log-service/shot-log.service';
+import { FireService } from './services/fire-service/fire.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ShotLogService } from './services/shot-log-service/shot-log.service';
   providers: [
     ShipPlaceService,
     SwitchTurnService,
-    ShotLogService
+    ShotLogService,
+    FireService
   ],
   bootstrap: [AppComponent]
 })

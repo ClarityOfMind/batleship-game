@@ -5,6 +5,7 @@ import Coordinate from '../../models/coordinate.model';
 import { SwitchTurnService } from '../../services/switch-trun-service/switch-turn.service';
 import { ShotLogService } from '../../services/shot-log-service/shot-log.service';
 import { EventEmitter } from 'protractor';
+import { FireService } from '../../services/fire-service/fire.service';
 
 @Component({
   selector: 'app-battlefield',
@@ -26,18 +27,20 @@ export class BattlefieldComponent implements OnInit {
   constructor(
     private _shipPlacementService: ShipPlaceService,
     private _switchTurnService: SwitchTurnService,
-    private _shotLogService: ShotLogService
+    private _shotLogService: ShotLogService,
+    private _fireService: FireService
   ) {
   }
 
   ngOnInit() {
-    this.tiles = this._shipPlacementService.generateTileArray();
+    this.tiles = this._shipPlacementService.getTiles();
   }
 
   setupShipsRandomly () {
     this.tiles = [];
-    this.tiles = this._shipPlacementService.generateTileArray();
-    this._shipPlacementService.setRandomShips(this.tiles);
+    this._shipPlacementService.generateTileArray();
+    this._shipPlacementService.setRandomShips();
+    this.tiles = this._shipPlacementService.getTiles();
   }
 
   getFired (position: Coordinate) {

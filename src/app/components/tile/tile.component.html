@@ -1,5 +1,10 @@
 <button [ngClass]="{
     'Tile': true,
-    'Tile--isShip': isShip,
+    'Tile--isShip': owner === 'Human' ? isShip : false,
     'Tile--isHit' : isHit
-  }" (click)="getFiredByPlayer($event)"></button>
+  }" 
+    (click)="getFiredByPlayer($event)"
+    [ngSwitch]="status">
+  <span *ngSwitchCase="'dead'">X</span>
+  <span *ngSwitchCase="'miss'">miss</span>
+</button>

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Ship } from '../../models/ship.model';
 import Coordinate from '../../models/coordinate.model';
+import { ShipPlaceService } from '../../services/ship-place-service/ship-place.service';
 
 @Component({
   selector: 'app-player',
@@ -13,30 +14,16 @@ export class PlayerComponent implements OnInit {
   public id: number;
   public ships: Ship[][] = [];
 
-  constructor() {
+  constructor(private _shipPlacementService: ShipPlaceService) {
   }
 
   ngOnInit() {
     this.id = this.getUniqueId();
-    this.generateShipArray();
-  }
-
-  generateShipArray (): void {
-    for (let i = 0; i < 4; i++) {
-      this.ships[i] = [];
-     for (let j = 0; j < (i + 1); j++) {
-       this.ships[i][j] = new Ship(i + 1);
-     }
-    }
+    this.ships = this._shipPlacementService.getShips();
   }
 
   getUniqueId (): number {
     return +new Date() / 1000;
-  }
-
-  getFired (position: Coordinate) {
-    this.positionAttacked = position;
-    console.log(this.positionAttacked);
   }
 }
 

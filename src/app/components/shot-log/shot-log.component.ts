@@ -15,7 +15,6 @@ export class ShotLogComponent implements OnInit {
 
   ngOnInit() {
     this.logArray = this._shotLogService.getLog(this.owner);
-    console.log(this.logArray);
   }
 
 

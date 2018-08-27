@@ -8,6 +8,7 @@ import { SwitchTurnService } from '../../services/switch-trun-service/switch-tur
   styleUrls: ['./tile.component.styl']
 })
 export class TileComponent implements OnInit {
+  public status: string;
   @Input () position: Coordinate;
   @Input () isShip: boolean;
   @Input () isAroundShip: boolean;
@@ -24,10 +25,25 @@ export class TileComponent implements OnInit {
   /**
   * Send position of a tile upon click.
   */
-  getFiredByPlayer (event): void {
-    if (this._swtchTurnService.humanTurn) {
-      this.clickOnTile.emit(this.position);
+  getFiredByPlayer (): void {
+    this.updateView();
+  }
+
+  updateView () {
+    if (this._swtchTurnService.humanTurn && this.owner === 'AI') {
+      if (this.isShip) {
+        this.status = 'dead';
+      } else {
+        this.status = 'miss';
+      }
+    } else if (this._swtchTurnService.computerTurn && this.owner === 'Human') {
+      if (this.isShip) {
+        this.status = 'dead';
+      } else {
+        this.status = 'miss';
+      }
     }
+    this.clickOnTile.emit(this.position);
   }
 
 }

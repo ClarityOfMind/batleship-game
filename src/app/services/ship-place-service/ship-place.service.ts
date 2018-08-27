@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import Tile from '../../models/tile.model';
 import Coordinate from '../../models/coordinate.model';
+import { Ship } from '../../models/ship.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,55 +10,71 @@ export class ShipPlaceService {
 
   public isActive: boolean;
   public ShipQty = 10;
+  public ships: Ship  [][];
+  public tiles: Tile  [][];
 
   constructor() {
     this.isActive = true;
+    this.generateShipArray ();
+    this.generateTileArray();
   }
 
-  generateTileArray (): Tile[][] {
-    const tiles: Tile[][] = [];
+  generateTileArray (): void {
+    this.tiles = [];
 
     for (let i = 0; i < 10; i++) {
-      tiles[i] = [];
+      this.tiles[i] = [];
       for (let j = 0; j < 10; j++) {
-        tiles[i].push(new Tile(new Coordinate(i , j )));
+        this.tiles[i].push(new Tile(new Coordinate(i , j )));
       }
     }
-    console.log(tiles);
-    return tiles;
+  }
+
+  generateShipArray (): void {
+    this.ships = [];
+    for (let i = 0; i < 4; i++) {
+      this.ships[i] = [];
+     for (let j = 0; j < (i + 1); j++) {
+       this.ships[i][j] = new Ship(i + 1);
+     }
+    }
+  }
+
+  getShips () {
+    return this.ships;
+  }
+
+  getTiles () {
+    return this.tiles;
   }
 
 
-  setRandomShips (tiles) {
-    const shps = [
+  setRandomShips () {
+    const ships = [
       [],
       [4],
       [3],
       [2],
       [1]
     ];
-    for (let i = 1; i <= shps.length; i++) {
+    for (let i = 1; i < ships.length; i++) {
 
-      const shipLength: number = shps[i][0];
-
-      console.log('shp len', shipLength);
+      const shipLength: number = ships[i][0];
 
       for (let j = 0; j < i; j++) {
-        this.validatePoint(tiles, shipLength);
+        this.validatePoint(this.tiles, shipLength);
       }
     }
   }
 
-  validatePoint (tiles: Tile[], shipLength: number) {
+  validatePoint (tiles: Tile[][], shipLength: number) {
     const direction: {x: number, y: number} = {x: 0, y: 0};
         direction.x = this.getRandomInt(0, 1); // Define which direction vertical (0) or horizintal (1) should be checked first.
         direction.y = (direction.x === 0) ? 1 : 0;
 
-        console.log('direction', direction); /////////////////
+        const randomPoint = this.getRandomPoint(shipLength, direction);
 
-        const randomPoint = this.getRanomPoint(shipLength, direction);
-
-        const validPoint = this.validateShipLocation(tiles, randomPoint, direction, shipLength);
+        const validPoint = this.validateShipLocation(this.tiles, randomPoint, direction, shipLength);
 
         if (validPoint) {
           if (direction.x) {
@@ -76,7 +93,7 @@ export class ShipPlaceService {
         }
   }
 
-  getRanomPoint (shipLength: number, direction: {x: number, y: number}): Coordinate {
+  getRandomPoint (shipLength: number, direction: {x: number, y: number}): Coordinate {
     const point: {x: number, y: number} = {x: 0, y: 0};
 
     if (direction.x) {
@@ -86,11 +103,10 @@ export class ShipPlaceService {
       point.x = this.getRandomInt(0, 9);
       point.y = this.getRandomInt(0, 10 - shipLength);
     }
-    console.log (point);
     return point;
   }
 
-  validateShipLocation (tiles: Tile[], point: {x: number, y: number}, direction: {x: number, y: number}, shipLength: number): boolean {
+  validateShipLocation (tiles: Tile[][], point: {x: number, y: number}, direction: {x: number, y: number}, shipLength: number): boolean {
 
     const startPointX = (point.x === 0) ? point.x : point.x - 1;
     const startPointY = (point.y === 0) ? point.y : point.y - 1;
@@ -125,8 +141,6 @@ export class ShipPlaceService {
       endPointY = point.y + 1;
     }
 
-    console.log('X:', startPointX, endPointX, 'Y:', startPointY, endPointY);
-
     for (let i = startPointX; i < endPointX + 1; i++ ) {
       for (let j = startPointY; j < endPointY + 1; j++) {
         if (tiles[i][j].isShip) {
@@ -147,7 +161,5 @@ export class ShipPlaceService {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  /* filterTileArray (position: Coordinate) {
-    return this.tiles = this.tiles.filter(tile => tile.position !== position);
-  } */
+
 }
