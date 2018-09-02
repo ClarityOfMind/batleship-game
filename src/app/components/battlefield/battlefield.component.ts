@@ -33,18 +33,17 @@ export class BattlefieldComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tiles = this._shipPlacementService.getTiles();
+    this.tiles = this._shipPlacementService.getTiles(this.owner);
   }
 
   setupShipsRandomly () {
     this.tiles = [];
-    this._shipPlacementService.generateTileArray();
-    this._shipPlacementService.setRandomShips();
-    this.tiles = this._shipPlacementService.getTiles();
+    this._shipPlacementService.generateTileArray(this.owner);
+    this._shipPlacementService.setRandomShips(this.owner);
+    this.tiles = this._shipPlacementService.getTiles(this.owner);
   }
 
   getFired (position: Coordinate) {
     this._shotLogService.log(this. owner, this.positionY[position.y] + '-' + this.positionX[position.x]);
-    console.log(this.owner, position);
   }
 }

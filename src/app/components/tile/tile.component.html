@@ -1,10 +1,14 @@
 <button [ngClass]="{
     'Tile': true,
-    'Tile--isShip': owner === 'Human' ? isShip : false,
+    'Tile--isShip': isShip, 
     'Tile--isHit' : isHit
   }" 
-    (click)="getFiredByPlayer($event)"
+    (click)="clickOnTile($event)"
+    [disabled]="owner === 'Human'  || _switchTurnService.computerTurn"
     [ngSwitch]="status">
   <span *ngSwitchCase="'dead'">X</span>
-  <span *ngSwitchCase="'miss'">miss</span>
+  <span *ngSwitchCase="'miss'">0</span>
 </button>
+
+
+<!-- owner === 'Human' ? isShip : false, -->

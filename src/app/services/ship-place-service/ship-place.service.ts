@@ -7,90 +7,121 @@ import { Ship } from '../../models/ship.model';
   providedIn: 'root'
 })
 export class ShipPlaceService {
-
-  public isActive: boolean;
-  public ShipQty = 10;
-  public ships: Ship  [][];
-  public tiles: Tile  [][];
+  public playerShips: Ship  [][];
+  public computerShips: Ship  [][];
+  public playerBoard: Tile  [][];
+  public computerBoard: Tile  [][];
 
   constructor() {
-    this.isActive = true;
-    this.generateShipArray ();
-    this.generateTileArray();
+    this.generateShipArray ('Human');
+    this.generateShipArray ('AI');
+    this.generateTileArray('Human');
+    this.generateTileArray('AI');
   }
 
-  generateTileArray (): void {
-    this.tiles = [];
+  generateTileArray (owner): void {
+    const tiles = [];
 
     for (let i = 0; i < 10; i++) {
-      this.tiles[i] = [];
+      tiles[i] = [];
       for (let j = 0; j < 10; j++) {
-        this.tiles[i].push(new Tile(new Coordinate(i , j )));
+        tiles[i].push(new Tile(new Coordinate(i , j )));
       }
     }
-  }
 
-  generateShipArray (): void {
-    this.ships = [];
-    for (let i = 0; i < 4; i++) {
-      this.ships[i] = [];
-     for (let j = 0; j < (i + 1); j++) {
-       this.ships[i][j] = new Ship(i + 1);
-     }
+    if (owner === 'Human') {
+      this.playerBoard = tiles;
+    } else {
+      this.computerBoard = tiles;
     }
   }
 
-  getShips () {
-    return this.ships;
+  generateShipArray (owner): void {
+    const ships = [];
+    for (let i = 0; i < 4; i++) {
+      ships[i] = [];
+      for (let j = 0; j < (i + 1); j++) {
+       ships[i][j] = new Ship(i + 1);
+      }
+    }
+    if (owner === 'Human') {
+      this.playerShips = ships;
+    } else {
+      this.computerShips = ships;
+    }
+    console.log(this.playerShips);
+    console.log(this.computerShips);
   }
 
-  getTiles () {
-    return this.tiles;
+  getShips (owner): Ship[][] {
+    if (owner === 'Human') {
+      return this.playerShips;
+    } else {
+      return this.computerShips;
+    }
+  }
+
+  getTiles (owner): Tile[][] {
+    if (owner === 'Human') {
+      return this.playerBoard;
+    } else {
+      return this.computerBoard;
+    }
   }
 
 
-  setRandomShips () {
+  setRandomShips (owner) {
     const ships = [
-      [],
       [4],
       [3],
       [2],
       [1]
     ];
-    for (let i = 1; i < ships.length; i++) {
+    for (let i = 0; i < ships.length; i++) {
 
       const shipLength: number = ships[i][0];
 
-      for (let j = 0; j < i; j++) {
-        this.validatePoint(this.tiles, shipLength);
+      for (let j = 0; j < i + 1; j++) {
+        if (owner === 'Human') {
+          const deckcoordinates = this.validatePoint(this.playerBoard, shipLength);
+          this.playerShips[i][j].deckCoordinates = deckcoordinates;
+        } else {
+          const deckcoordinates = this.validatePoint(this.computerBoard, shipLength);
+          this.computerShips[i][j].deckCoordinates = deckcoordinates;
+        }
       }
     }
   }
 
-  validatePoint (tiles: Tile[][], shipLength: number) {
+  validatePoint (tiles: Tile[][], shipLength: number): Coordinate[] {
     const direction: {x: number, y: number} = {x: 0, y: 0};
         direction.x = this.getRandomInt(0, 1); // Define which direction vertical (0) or horizintal (1) should be checked first.
         direction.y = (direction.x === 0) ? 1 : 0;
 
         const randomPoint = this.getRandomPoint(shipLength, direction);
 
-        const validPoint = this.validateShipLocation(this.tiles, randomPoint, direction, shipLength);
+        const validPoint = this.validateShipLocation(tiles, randomPoint, direction, shipLength);
+
+        const shipCoordinates: Coordinate[] = [];
 
         if (validPoint) {
           if (direction.x) {
-            for (let n = 0; n < shipLength; n++) {
-              tiles[randomPoint.x + n][randomPoint.y].isAroundShip = false;
-              tiles[randomPoint.x + n][randomPoint.y].isShip = true;
+            for (let i = 0; i < shipLength; i++) {
+              tiles[randomPoint.x + i][randomPoint.y].isAroundShip = false;
+              tiles[randomPoint.x + i][randomPoint.y].isShip = true;
+              shipCoordinates.push(new Coordinate(randomPoint.x + i, randomPoint.y));
             }
           } else {
-            for (let m = 0; m < shipLength; m++) {
-              tiles[randomPoint.x][randomPoint.y + m].isAroundShip = false;
-              tiles[randomPoint.x][randomPoint.y + m].isShip = true;
+            for (let j = 0; j < shipLength; j++) {
+              tiles[randomPoint.x][randomPoint.y + j].isAroundShip = false;
+              tiles[randomPoint.x][randomPoint.y + j].isShip = true;
+              shipCoordinates.push(new Coordinate(randomPoint.x, randomPoint.y + j));
             }
           }
         } else {
           return  this.validatePoint (tiles, shipLength);
         }
+        return shipCoordinates;
   }
 
   getRandomPoint (shipLength: number, direction: {x: number, y: number}): Coordinate {

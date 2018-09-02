@@ -15,7 +15,8 @@
             [isShip]="tile.isShip"
             [isAroundShip]="tile.isAroundShip"
             [owner]="owner" 
-            (clickOnTile)="getFired($event)">
+            [state]="state"
+            (getFiredByPlayer)="getFired($event)">
           </app-tile>
         </ng-container>
       </ng-container>
@@ -25,4 +26,4 @@
   </div>
   
 
-</div>
+</div> 

@@ -1,8 +1,11 @@
+import Coordinate from '../models/coordinate.model';
+
 /** Class representing a particular ship on the battlefield. */
 export class Ship {
-    class: string;
-    health: number;
-    size: number;
+    public class: string;
+    public health: number;
+    public size: number;
+    public deckCoordinates: Coordinate[];
 
     /**
      * Create a ship.
@@ -34,13 +37,12 @@ export class Ship {
      * Process.
      * @return {void}
      */
-    getFired () {
-        // this.health == --this.health;
+    decreaseHealth () {
+        --this.health;
         if (this.health === 0) {
-            // remove the ship from Player's ship array
-            // update Information Bar status: "You lost your [ship class]"
+            return false; // Ship is dead
         } else {
-            // update Information Bar status: "Your [ship class] got fired"
+            return true; // Ship still alive
         }
     }
 }

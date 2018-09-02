@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FireService } from '../../services/fire-service/fire.service';
 
 @Component({
   selector: 'app-port',
@@ -8,7 +9,9 @@ import { Component, OnInit, Input } from '@angular/core';
 export class PortComponent implements OnInit {
   @Input() ships;
 
-  constructor() { }
+  constructor(
+    private _fireService: FireService
+  ) { }
 
   ngOnInit() {
   }

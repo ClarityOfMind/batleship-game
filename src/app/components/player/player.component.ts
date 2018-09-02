@@ -19,7 +19,7 @@ export class PlayerComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.getUniqueId();
-    this.ships = this._shipPlacementService.getShips();
+    this.ships = this._shipPlacementService.getShips(this.name);
   }
 
   getUniqueId (): number {

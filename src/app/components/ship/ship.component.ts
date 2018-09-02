@@ -9,7 +9,6 @@ export class ShipComponent implements OnInit {
   @Input() class: string;
   @Input() widthIndex: number;
   @Input() health: number;
-  public focus = 0;
 
   public basicSize = 30;
   public privateWidth: number;
@@ -20,8 +19,4 @@ export class ShipComponent implements OnInit {
     this.privateWidth = this.basicSize * this.widthIndex;
   }
 
-
-  decreaseHealth () {
-    this.health--;
-  }
 }
