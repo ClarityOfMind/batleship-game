@@ -33,17 +33,30 @@ export class BattlefieldComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tiles = this._shipPlacementService.getTiles(this.owner);
+    this.initBoard(this.owner);
+    this.setupShipsRandomly();
   }
 
   setupShipsRandomly () {
     this.tiles = [];
     this._shipPlacementService.generateTileArray(this.owner);
     this._shipPlacementService.setRandomShips(this.owner);
-    this.tiles = this._shipPlacementService.getTiles(this.owner);
+    this.initBoard(this.owner);
+
+    if (this.owner === 'Human') {
+      this._fireService.resetSubject();
+    }
   }
 
   getFired (position: Coordinate) {
     this._shotLogService.log(this. owner, this.positionY[position.y] + '-' + this.positionX[position.x]);
+  }
+
+  initBoard (owner: string) {
+    if (owner === 'Human') {
+      this.tiles = this._shipPlacementService.playerBoard;
+    } else {
+      this.tiles = this._shipPlacementService.computerBoard;
+    }
   }
 }

@@ -15,15 +15,11 @@
             [isShip]="tile.isShip"
             [isAroundShip]="tile.isAroundShip"
             [owner]="owner" 
-            [state]="state"
+            [state]="tile.state"
             (getFiredByPlayer)="getFired($event)">
           </app-tile>
         </ng-container>
       </ng-container>
-      <button (click)="setupShipsRandomly();">Random</button>
-      <button (click)="_switchTurnService.switchTurn()">Turn</button>
     </div>
   </div>
-  
-
-</div> 
+</div>

@@ -12,9 +12,8 @@ import { Subject } from 'rxjs';
 })
 export class FireService {
   public difficulty;
-  private torpedoTarget = new Subject<Coordinate>();
-  public torpedoTarget$ = this.torpedoTarget.asObservable();
-
+  public computerFireSource = new Subject<Coordinate>();
+  public computerFireSourceStream$ = this.computerFireSource.asObservable();
 
   constructor(
     private _shipPlacementService: ShipPlaceService,
@@ -22,6 +21,13 @@ export class FireService {
     private _shotLogService: ShotLogService
   ) {
     this.setDifficulty(this.easy);
+  }
+
+  resetSubject() {
+    this.computerFireSource.complete();
+    console.log( 'resetting subscriptions' );
+    this.computerFireSource = new Subject();
+    this.computerFireSourceStream$ = this.computerFireSource.asObservable();
   }
 
   getFiredByPlayer (target: Coordinate) {
@@ -41,41 +47,39 @@ export class FireService {
         console.log('Fucking ship is dead');
       }
 
-      if (this._switchTurnService.computerTurn) {
-        this.launchTorpedo(this.difficulty());
-      }
     } else {
       this._switchTurnService.switchTurn();
       if (this._switchTurnService.computerTurn) {
-        this.launchTorpedo(this.difficulty());
+        this.compFire();
       }
     }
   }
 
-  getFiredByAI (target: Coordinate) {
-    const ships = this._shipPlacementService.getShips('Human');
-    const board = this._shipPlacementService.getTiles('Human');
+  compFire (): void {
+    const ships = this._shipPlacementService.playerShips;
+    const board = this._shipPlacementService.playerBoard;
 
-    const tileAttacked = board[target.x][target.y];
-    tileAttacked.state = 1;
+    let target = this.validateComputerShot (this.difficulty, board  );
 
-    if (tileAttacked.isShip) {
-      const ship = this.findShip(tileAttacked, ships);
+    while (board[target.x][target.y].isShip) {
+      board[target.x][target.y].state = 1;
+
+      const ship = this.findShip(board[target.x][target.y], ships);
       this.hitShip(ship, ships);
 
-      if (ships[ship.x][ship.y].health > 0) {
-        console.log('Got him');
-      } else {
-        console.log('Fucking ship is dead');
-      }
-
-      this.launchTorpedo(this.difficulty());
-    } else {
-      console.log('switch works');
-      this._switchTurnService.switchTurn();
-      console.log(this._switchTurnService.humanTurn);
-      console.log(this._switchTurnService.computerTurn);
+      this.launchTorpedo(target);
+      target = this.validateComputerShot (this.difficulty, this._shipPlacementService.playerBoard);
     }
+
+    console.log(target, 'state before', board[target.x][target.y].state);
+    board[target.x][target.y].state = 1;
+    console.log(target, 'state after', board[target.x][target.y].state);
+    this.launchTorpedo(target);
+
+    console.log('switch works');
+    this._switchTurnService.switchTurn();
+    console.log('Human turn', this._switchTurnService.humanTurn);
+    console.log('Comp turn', this._switchTurnService.computerTurn);
   }
 
   findShip (target: Tile, ships: Ship[][]): Coordinate {
@@ -90,12 +94,22 @@ export class FireService {
     }
   }
 
+  launchTorpedo (coordinate: Coordinate) {
+    this.computerFireSource.next(coordinate);
+  }
+
   hitShip (target: Coordinate, ships: Ship[][]) {
     ships[target.x][target.y].decreaseHealth();
   }
 
-  launchTorpedo (difficulty: Coordinate) {
-    this.torpedoTarget.next(difficulty);
+  validateComputerShot (difficulty, tiles: Tile[][]) {
+    let target = difficulty.call(this);
+
+    while (tiles[target.x][target.y].state) {
+      console.log('same target');
+      target = difficulty.call(this);
+    }
+      return target;
   }
 
   easy () {

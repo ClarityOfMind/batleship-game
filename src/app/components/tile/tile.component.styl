@@ -7,5 +7,19 @@
     background: none
     display: block
     
-    &--isShip
+    &--playerShip,
+    &--computerShip 
         background: rgba(0,0,255,.3)
+
+    &--missed
+        position: relative
+
+        &:before
+            position: absolute
+            top: -2px
+            left: -2px
+            content: ''
+            width: 5px
+            height: 5px
+            background: rgba(00,0,0,1)    
+            border-radius: 50% 

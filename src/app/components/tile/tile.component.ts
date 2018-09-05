@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './tile.component.html',
   styleUrls: ['./tile.component.styl']
 })
-export class TileComponent implements OnInit, OnDestroy {
+export class TileComponent implements OnInit {
   public status: string;
   private subscription: Subscription;
   @Input () position: Coordinate;
@@ -37,7 +37,7 @@ export class TileComponent implements OnInit, OnDestroy {
     if (this.state) {
       return;
     } else {
-      this.state = 1;
+      /* this.state = 1; */
       this.updateView();
       this._fireService.getFiredByPlayer(this.position);
     }
@@ -53,32 +53,23 @@ export class TileComponent implements OnInit, OnDestroy {
   }
 
   getFiredByAi (target: Coordinate): void {
-
     if (this.state) {
-      this._fireService.launchTorpedo(this._fireService.difficulty());
+      return;
     } else {
-      console.log('works');
-      this.state = 1;
       this.updateView();
-      this._fireService.getFiredByAI(target);
     }
+      /* this._fireService.getFiredByAI(target); */
   }
 
   subscribeToComputerShot (owner: string) {
-    if (owner === 'Human') {
-      console.log(owner);
-      this._fireService.torpedoTarget$
+    if (this.owner === 'Human') {
+      this.subscription = this._fireService.computerFireSourceStream$
         .subscribe(coordinate => {
-          console.log('subscribed');
           if (this.position.x === coordinate.x && this.position.y === coordinate.y) {
-            console.log(this);
-            /* this.getFiredByAi(coordinate); */
+            this.getFiredByAi(coordinate);
           }
         });
     }
   }
 
-  ngOnDestroy() {
-
-  }
 }

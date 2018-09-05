@@ -12,6 +12,7 @@ import { SwitchTurnService } from './services/switch-trun-service/switch-turn.se
 import { ShotLogComponent } from './components/shot-log/shot-log.component';
 import { ShotLogService } from './services/shot-log-service/shot-log.service';
 import { FireService } from './services/fire-service/fire.service';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { FireService } from './services/fire-service/fire.service';
     PlayerComponent,
     PortComponent,
     ShipComponent,
-    ShotLogComponent
+    ShotLogComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule
