@@ -13,6 +13,8 @@ import { ShotLogComponent } from './components/shot-log/shot-log.component';
 import { ShotLogService } from './services/shot-log-service/shot-log.service';
 import { FireService } from './services/fire-service/fire.service';
 import { HeaderComponent } from './components/header/header.component';
+import { HttpService } from './services/http-service/http.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -26,13 +28,15 @@ import { HeaderComponent } from './components/header/header.component';
     HeaderComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
   providers: [
     ShipPlaceService,
     SwitchTurnService,
     ShotLogService,
-    FireService
+    FireService,
+    HttpService
   ],
   bootstrap: [AppComponent]
 })

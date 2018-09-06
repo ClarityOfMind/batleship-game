@@ -3,6 +3,7 @@ import Coordinate from '../../models/coordinate.model';
 import { SwitchTurnService } from '../../services/switch-trun-service/switch-turn.service';
 import { FireService } from '../../services/fire-service/fire.service';
 import { Subscription } from 'rxjs';
+import { HttpService } from '../../services/http-service/http.service';
 
 @Component({
   selector: 'app-tile',
@@ -20,9 +21,11 @@ export class TileComponent implements OnInit {
 
   @Output () getFiredByPlayer: EventEmitter<Coordinate> = new EventEmitter();
 
+  public config: Object;
   constructor(
     private _switchTurnService: SwitchTurnService,
-    private _fireService: FireService
+    private _fireService: FireService,
+    private _httpService: HttpService
   ) {
   }
 
@@ -37,7 +40,6 @@ export class TileComponent implements OnInit {
     if (this.state) {
       return;
     } else {
-      /* this.state = 1; */
       this.updateView();
       this._fireService.getFiredByPlayer(this.position);
     }
@@ -58,7 +60,6 @@ export class TileComponent implements OnInit {
     } else {
       this.updateView();
     }
-      /* this._fireService.getFiredByAI(target); */
   }
 
   subscribeToComputerShot (owner: string) {
@@ -71,5 +72,4 @@ export class TileComponent implements OnInit {
         });
     }
   }
-
 }

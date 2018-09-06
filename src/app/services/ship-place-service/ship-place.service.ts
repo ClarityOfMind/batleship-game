@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import Tile from '../../models/tile.model';
 import Coordinate from '../../models/coordinate.model';
 import { Ship } from '../../models/ship.model';
+import { HttpService } from '../http-service/http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +12,20 @@ export class ShipPlaceService {
   public computerShips: Ship  [][];
   public playerBoard: Tile  [][];
   public computerBoard: Tile  [][];
+  public boardSize: any;
+  public config: Object;
 
-  constructor() {
+  constructor(
+    private _httpService: HttpService,
+   ) {
     this.generateShipArray ('Human');
     this.generateShipArray ('AI');
     this.generateTileArray('Human');
     this.generateTileArray('AI');
+    this._httpService.getConfig().subscribe(data => {
+      /* (console.log(data)); */
+      this.config = data;
+    });
   }
 
   generateTileArray (owner): void {
